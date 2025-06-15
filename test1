@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Donovin Jones - Interactive Resume</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <!-- Chosen Palette: Warm Neutral Harmony -->
+    <!-- Application Structure Plan: The application is designed as a single-page, vertical-scrolling portfolio. This structure provides a guided narrative of Donovin's career, starting with a strong profile, flowing into an interactive experience timeline, a categorized skills section, and highlights of his major projects and achievements. This is more engaging than a static document and allows recruiters to quickly jump to sections of interest via the sticky navigation. The interactive timeline, in particular, lets users explore his work history at their own pace, revealing details on demand to prevent information overload. -->
+    <!-- Visualization & Content Choices: 
+        - Profile/Header: Goal: Inform. Method: Clean text block. Interaction: Links for contact. Justification: Provides an immediate, concise summary of his value proposition.
+        - Experience Timeline: Goal: Show change/growth. Method: Custom interactive vertical timeline (HTML/CSS/JS). Interaction: Clicking a job title expands/collapses detailed descriptions. Justification: Organizes chronological data interactively, making it less dense and more explorable than a long list.
+        - Photography Partnerships: Goal: Organize/Inform. Method: A filterable grid of text blocks. Interaction: Buttons to filter partners by type (Universities, Conferences). Justification: Highlights the breadth and prestige of his client base in a digestible, interactive format.
+        - Skills: Goal: Inform/Organize. Method: Categorized lists with icons. Interaction: Subtle hover effects. Justification: Groups skills logically for quick scanning by recruiters, avoiding misleading quantitative charts. The use of icons aids visual recognition.
+        - Awards/Athletics: Goal: Inform. Method: Simple two-column layout. Justification: Presents accolades and extracurriculars in a clear, balanced way.
+    -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .timeline-item-content {
+            transition: max-height 0.7s ease-in-out, opacity 0.5s ease-in-out;
+            max-height: 0;
+            opacity: 0;
+            overflow: hidden;
+        }
+        .timeline-item-content.open {
+            max-height: 500px;
+            opacity: 1;
+        }
+        .nav-link {
+            transition: color 0.3s;
+        }
+        .nav-link:hover, .nav-link.active {
+            color: #0d9488; /* teal-600 */
+        }
+        .filter-btn.active {
+            background-color: #0d9488; /* teal-600 */
+            color: white;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-700">
+
+    <header class="bg-slate-50/80 backdrop-blur-lg sticky top-0 z-50 border-b border-slate-200">
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="#home" class="text-xl font-bold text-slate-800">Donovin Jones</a>
+            <div class="hidden md:flex items-center space-x-8">
+                <a href="#experience" class="nav-link font-medium">Experience</a>
+                <a href="#portfolio" class="nav-link font-medium">Portfolio</a>
+                <a href="#skills" class="nav-link font-medium">Skills</a>
+                <a href="#contact" class="nav-link bg-teal-600 text-white px-4 py-2 rounded-full hover:bg-teal-700 transition">Contact</a>
+            </div>
+            <div class="md:hidden">
+                <a href="#contact" class="nav-link bg-teal-600 text-white px-4 py-2 rounded-full hover:bg-teal-700 transition">Contact</a>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container mx-auto px-6">
+        <section id="home" class="text-center py-20 md:py-32">
+            <h1 class="text-4xl md:text-6xl font-bold text-slate-800 mb-4">Marketing Strategist & Content Creator</h1>
+            <p class="max-w-3xl mx-auto text-lg md:text-xl text-slate-600 mb-6">
+                A marketing major with an extensive background in photography and social media. I bridge the gap between strategic marketing and compelling content creation to build and grow engaged audiences.
+            </p>
+            <div class="flex justify-center items-center space-x-4">
+                 <a href="mailto:don@donjphoto.com" class="text-teal-600 hover:text-teal-800 transition">don@donjphoto.com</a>
+                 <span class="text-slate-300">|</span>
+                 <a href="https://www.donjphoto.com/home" target="_blank" rel="noopener noreferrer" class="text-teal-600 hover:text-teal-800 transition">www.donjphoto.com</a>
+                 <span class="text-slate-300">|</span>
+                 <span class="text-slate-600">(352) 281-8853</span>
+            </div>
+        </section>
+
+        <section id="experience" class="py-16">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-slate-800 mb-2">Professional Journey</h2>
+                <p class="max-w-2xl mx-auto text-slate-600">Here's a timeline of my key professional experiences. My roles have given me a unique blend of creative and strategic skills. Click on any title to see more details about my responsibilities and achievements in that role.</p>
+            </div>
+            <div id="timeline-container" class="relative max-w-3xl mx-auto">
+            </div>
+        </section>
+
+        <section id="portfolio" class="py-16 bg-white rounded-2xl">
+             <div class="text-center mb-12 px-4">
+                <h2 class="text-3xl font-bold text-slate-800 mb-2">Portfolio & Partnerships</h2>
+                <p class="max-w-2xl mx-auto text-slate-600">As the owner of Don J Photo, I've had the privilege of partnering with a diverse range of prestigious organizations. Use the filters below to explore some of the universities and athletic conferences I've worked with.</p>
+            </div>
+            <div class="flex justify-center space-x-2 mb-8">
+                <button class="filter-btn px-4 py-2 rounded-full border border-slate-300 transition active" data-filter="all">All</button>
+                <button class="filter-btn px-4 py-2 rounded-full border border-slate-300 transition" data-filter="university">Universities</button>
+                <button class="filter-btn px-4 py-2 rounded-full border border-slate-300 transition" data-filter="conference">Conferences</button>
+                <button class="filter-btn px-4 py-2 rounded-full border border-slate-300 transition" data-filter="organization">Organizations</button>
+            </div>
+            <div id="partners-grid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 px-4">
+            </div>
+        </section>
+
+        <section id="skills" class="py-16">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-slate-800 mb-2">Core Competencies</h2>
+                <p class="max-w-2xl mx-auto text-slate-600">I possess a versatile skill set that combines creative talent with marketing acumen, allowing me to deliver comprehensive and impactful results.</p>
+            </div>
+            <div class="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+                <div class="bg-white p-6 rounded-lg shadow-sm">
+                    <h3 class="text-xl font-bold text-slate-800 mb-4 flex items-center"><span class="mr-2 text-teal-600">📷</span> Creative</h3>
+                    <ul class="space-y-2">
+                        <li class="flex items-center"><span class="text-teal-500 mr-2">◆</span>Photography & Filmmaking</li>
+                        <li class="flex items-center"><span class="text-teal-500 mr-2">◆</span>Graphic Design</li>
+                        <li class="flex items-center"><span class="text-teal-500 mr-2">◆</span>Content Creation</li>
+                    </ul>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-sm">
+                    <h3 class="text-xl font-bold text-slate-800 mb-4 flex items-center"><span class="mr-2 text-teal-600">📈</span> Marketing</h3>
+                    <ul class="space-y-2">
+                        <li class="flex items-center"><span class="text-teal-500 mr-2">◆</span>Social Media Management</li>
+                        <li class="flex items-center"><span class="text-teal-500 mr-2">◆</span>Social Media Curation</li>
+                        <li class="flex items-center"><span class="text-teal-500 mr-2">◆</span>Brand Messaging</li>
+                         <li class="flex items-center"><span class="text-teal-500 mr-2">◆</span>Audience Targeting</li>
+                    </ul>
+                </div>
+                 <div class="bg-white p-6 rounded-lg shadow-sm">
+                    <h3 class="text-xl font-bold text-slate-800 mb-4 flex items-center"><span class="mr-2 text-teal-600">💻</span> Software</h3>
+                    <ul class="space-y-2">
+                        <li class="flex items-center"><span class="text-teal-500 mr-2">◆</span>Adobe Photoshop</li>
+                        <li class="flex items-center"><span class="text-teal-500 mr-2">◆</span>Adobe Lightroom</li>
+                        <li class="flex items-center"><span class="text-teal-500 mr-2">◆</span>Client Relationship Management</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section id="awards" class="py-16">
+             <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-slate-800 mb-2">Awards & Leadership</h2>
+                <p class="max-w-2xl mx-auto text-slate-600">Beyond my professional and academic work, I'm dedicated to leadership and personal growth through athletics and community service.</p>
+            </div>
+            <div class="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+                 <div class="bg-white p-6 rounded-lg shadow-sm">
+                    <h3 class="text-xl font-bold text-slate-800 mb-4">Athletics & Service</h3>
+                     <ul class="space-y-2">
+                        <li><span class="font-semibold">NCAA Division II Men's Varsity Lacrosse:</span> 2021 - 2025</li>
+                        <li><span class="font-semibold">S.A.A.C. Executive Board Member:</span> 2023</li>
+                        <li><span class="font-semibold">S.A.A.C. Committee Member:</span> 2021</li>
+                        <li><span class="font-semibold">Athletics Student Photographer</span></li>
+                    </ul>
+                </div>
+                 <div class="bg-white p-6 rounded-lg shadow-sm">
+                    <h3 class="text-xl font-bold text-slate-800 mb-4">Honors & Recognition</h3>
+                     <ul class="space-y-2">
+                        <li><span class="font-semibold">Eagle Scout,</span> Boy Scouts of America</li>
+                        <li><span class="font-semibold">Gainesville Sun All Region Honors:</span> 2021 First Team & 2019 Second Team</li>
+                        <li><span class="font-semibold">FSLCA 2021 Senior All Star Team</span></li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+    </main>
+    
+    <footer id="contact" class="bg-slate-800 text-slate-200">
+        <div class="container mx-auto px-6 py-12 text-center">
+            <h2 class="text-2xl font-bold mb-2">Let's Connect</h2>
+            <p class="mb-6 max-w-xl mx-auto">I'm currently seeking new opportunities and collaborations. Feel free to reach out.</p>
+             <div class="flex justify-center items-center space-x-4 text-lg">
+                 <a href="mailto:don@donjphoto.com" class="text-teal-400 hover:text-teal-300 transition">don@donjphoto.com</a>
+                 <span class="text-slate-500">|</span>
+                 <a href="https://www.donjphoto.com/home" target="_blank" rel="noopener noreferrer" class="text-teal-400 hover:text-teal-300 transition">Portfolio</a>
+             </div>
+             <p class="mt-8 text-sm text-slate-400">&copy; 2025 Donovin Jones. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const experienceData = [
+                {
+                    date: "June 2024 - Dec 2025",
+                    title: "Marketing Intern / Event Support",
+                    company: "Sisco Symposium – Roberts Wesleyan University",
+                    details: [
+                        "Collaborated with the Director of Undergraduate Enrollment Marketing to support branding, promotion, and logistics.",
+                        "Launched the event’s first-ever Instagram page to expand visibility and student engagement.",
+                        "Oversaw content strategy, design, and scheduling for the new social media presence.",
+                        "Gained hands-on experience in brand messaging and audience targeting in a real-world setting."
+                    ]
+                },
+                {
+                    date: "Dec 2018 - Present",
+                    title: "Owner / Photographer",
+                    company: "Don J Photo",
+                    details: [
+                        "Managed all aspects of a photography business, completing over 100 photoshoots.",
+                        "Specialized in prom, graduation portraits, sports photography, motorsports, and event coverage.",
+                        "Fostered enduring client relationships, leading to numerous partnerships with universities and athletic conferences.",
+                    ]
+                },
+                {
+                    date: "June - Aug 2023",
+                    title: "Photographer",
+                    company: "Steve Wilkinson Inc., Gainesville, FL",
+                    details: [
+                        "Provided professional posing instructions to clients for senior portraits.",
+                        "Curated and culled large volumes of photos for final editing.",
+                        "Collaborated with coworkers to efficiently photograph large groups, such as school bands and sports teams."
+                    ]
+                },
+                {
+                    date: "May - Aug 2023",
+                    title: "Valet",
+                    company: "SafeParc, Gainesville, FL",
+                    details: [
+                        "Parked and retrieved customer vehicles in a safe and efficient manner.",
+                        "Provided hotel guests with recommendations on local activities and dining.",
+                        "Maintained and audited inventory of client vehicles."
+                    ]
+                },
+                 {
+                    date: "May - Aug 2022",
+                    title: "Camp Counselor",
+                    company: "Legacy Park Summer Camp, Alachua, FL",
+                    details: [
+                        "Supervised and engaged with children in a fun and safe environment.",
+                        "Organized and led creative activities and team-building exercises.",
+                        "Managed groups of campers safely and effectively during field trips."
+                    ]
+                }
+            ];
+
+            const timelineContainer = document.getElementById('timeline-container');
+            timelineContainer.innerHTML = experienceData.map((item, index) => `
+                <div class="timeline-item relative pl-8 sm:pl-12 py-4 border-l-2 border-slate-300">
+                    <div class="timeline-marker absolute -left-[11px] top-5 h-5 w-5 bg-white border-2 border-teal-600 rounded-full"></div>
+                    <div class="timeline-item-header cursor-pointer">
+                        <time class="text-sm text-slate-500">${item.date}</time>
+                        <h3 class="text-lg font-bold text-slate-800">${item.title}</h3>
+                        <p class="text-md font-medium text-slate-600">${item.company}</p>
+                    </div>
+                    <div class="timeline-item-content">
+                        <ul class="list-disc pl-5 mt-2 space-y-1 text-slate-600">
+                            ${item.details.map(detail => `<li>${detail}</li>`).join('')}
+                        </ul>
+                    </div>
+                </div>
+            `).join('');
+
+            document.querySelectorAll('.timeline-item-header').forEach(header => {
+                header.addEventListener('click', () => {
+                    const content = header.nextElementSibling;
+                    content.classList.toggle('open');
+                });
+            });
+
+            const partnersData = [
+                { name: 'Bentley University', type: 'university' },
+                { name: '2022 South Atlantic Conference Women\'s Golf Championship', type: 'conference' },
+                { name: 'D\'Youville University', type: 'university' },
+                { name: 'Coker University', type: 'university' },
+                { name: 'Monroe Community College', type: 'university' },
+                { name: 'Roberts Wesleyan University', type: 'university' },
+                { name: 'Theta Sigma Chapter of Alpha Phi Alpha', type: 'organization' },
+                { name: 'Felician University', type: 'university' },
+                { name: 'Niagara University', type: 'university' },
+                { name: 'Ferris State University', type: 'university' },
+                { name: 'Fairfield University', type: 'university' },
+                { name: 'Bryant and Stratton College Buffalo', type: 'university' },
+                { name: 'Duquesne University', type: 'university' },
+                { name: 'Massachusetts College of Liberal Arts', type: 'university' },
+                { name: 'NJCAA Region 3 Swim Championship (2023, 2024)', type: 'conference' },
+                { name: 'Vaden Cup Championship (2024)', type: 'conference' },
+                { name: 'East Coast Conference Women\'s Bowling Championship (2024)', type: 'conference' },
+                { name: 'NCAA Women\'s Bowling Regional Championship (2024, 2025)', type: 'conference' },
+                { name: 'East High School Lacrosse (Rochester, NY)', type: 'organization' },
+                { name: 'University Of Rochester Men\'s Lacrosse Club', type: 'organization' },
+                { name: 'East Coast Conference Outdoor Track and Field Championship (2024, 2025)', type: 'conference' },
+                { name: 'FCA Upstate Lacrosse (2024, 2025)', type: 'organization' },
+                { name: 'Ohio Dominican University', type: 'university' },
+                { name: 'Washington Adventist University', type: 'university' },
+                { name: 'American International College', type: 'university' },
+                { name: 'USCAA Basketball National Tournament (2025)', type: 'conference' },
+                { name: 'Quinnipiac University', type: 'university' }
+            ];
+
+
+            const partnersGrid = document.getElementById('partners-grid');
+            const filterButtons = document.querySelectorAll('.filter-btn');
+
+            function renderPartners(filter = 'all') {
+                partnersGrid.innerHTML = '';
+                const filteredData = partnersData.filter(p => filter === 'all' || p.type === filter);
+                filteredData.forEach(partner => {
+                    const partnerEl = document.createElement('div');
+                    partnerEl.className = 'bg-slate-100 p-4 rounded-lg text-center flex items-center justify-center';
+                    partnerEl.innerHTML = `<p class="font-semibold text-slate-700">${partner.name}</p>`;
+                    partnersGrid.appendChild(partnerEl);
+                });
+            }
+
+            filterButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    filterButtons.forEach(btn => btn.classList.remove('active'));
+                    button.classList.add('active');
+                    renderPartners(button.dataset.filter);
+                });
+            });
+
+            renderPartners();
+            
+            const navLinks = document.querySelectorAll('.nav-link');
+            const sections = document.querySelectorAll('section');
+
+            window.addEventListener('scroll', () => {
+                let current = '';
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop;
+                    if (pageYOffset >= sectionTop - 60) {
+                        current = section.getAttribute('id');
+                    }
+                });
+
+                navLinks.forEach(link => {
+                    link.classList.remove('active');
+                    if (link.getAttribute('href') === `#${current}`) {
+                        link.classList.add('active');
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
